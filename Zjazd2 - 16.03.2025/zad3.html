@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zad 3</title>
+</head>
+<body>
+  <h2>Formularz rezerwacji hotelu</h2>
+  <form action="zad3.php" method="post">
+
+    <label for="osoby">Ilość osób (1-4):</label>
+    <select name="osoby" id="osoby" required>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
+    <br><br>
+    
+    <fieldset>
+      <legend>Dane osoby rezerwującej</legend>
+      <label for="imie">Imię:</label>
+      <input type="text" name="imie" id="imie" required>
+      <br><br>
+      <label for="nazwisko">Nazwisko:</label>
+      <input type="text" name="nazwisko" id="nazwisko" required>
+      <br><br>
+      <label for="adres">Adres:</label>
+      <input type="text" name="adres" id="adres" required>
+      <br><br>
+      <label for="email">E-mail:</label>
+      <input type="email" name="email" id="email" required>
+      <br><br>
+      <label for="karta">Dane karty kredytowej:</label>
+      <input type="text" name="karta" id="karta" required>
+    </fieldset>
+    <br>
+
+    <fieldset>
+      <legend>Dane pobytu</legend>
+      <label for="data_pobytu">Data pobytu:</label>
+      <input type="date" name="data_pobytu" id="data_pobytu" required>
+      <br><br>
+      <label for="godzina_przyjazdu">Godzina przyjazdu:</label>
+      <input type="time" name="godzina_przyjazdu" id="godzina_przyjazdu" required>
+      <br><br>
+      <label for="lozko_dziecka">
+        <input type="checkbox" name="lozko_dziecka" id="lozko_dziecka">
+        Potrzebuję dodatkowego łóżka dla dziecka
+      </label>
+    </fieldset>
+    <br>
+
+    <fieldset>
+      <legend>Udogodnienia</legend>
+      <label for="klimatyzacja">
+        <input type="checkbox" name="udogodnienia[]" id="klimatyzacja" value="Klimatyzacja">
+        Klimatyzacja
+      </label>
+      <br>
+      <label for="popielniczka">
+        <input type="checkbox" name="udogodnienia[]" id="popielniczka" value="Popielniczka dla palacza">
+        Popielniczka dla palacza
+      </label>
+    </fieldset>
+    <br>
+    
+    <button type="submit">Zarezerwuj</button>
+  </form>
+</body>
+</html>

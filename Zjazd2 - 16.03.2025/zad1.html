@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zad 1</title>
+</head>
+<body>
+  <h2>Kalkulator</h2>
+  <form action="zad1.php" method="post">
+    <label for="num1">Liczba 1:</label>
+    <input type="number" step="any" name="num1" id="num1" required>
+    <br><br>
+    <label for="num2">Liczba 2:</label>
+    <input type="number" step="any" name="num2" id="num2" required>
+    <br><br>
+    <label for="operation">Wybierz działanie:</label>
+    <select name="operation" id="operation" required>
+      <option value="dodawanie">Dodawanie</option>
+      <option value="odejmowanie">Odejmowanie</option>
+      <option value="mnozenie">Mnożenie</option>
+      <option value="dzielenie">Dzielenie</option>
+    </select>
+    <br><br>
+    <button type="submit">Oblicz</button>
+  </form>
+</body>
+</html>
