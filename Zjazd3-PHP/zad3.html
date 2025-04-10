@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zad3 - Operacje na katalogach</title>
+</head>
+<body>
+  <h1>Operacje na katalogach</h1>
+  <form action="zad3.php" method="get">
+    <label for="path">Ścieżka (np. "./test/example/"):</label>
+    <input type="text" id="path" name="path" value="./test/example/" required>
+    <br><br>
+    <label for="dirname">Nazwa katalogu:</label>
+    <input type="text" id="dirname" name="dirname" required>
+    <br><br>
+    <label for="operation">Operacja:</label>
+    <select name="operation" id="operation">
+      <option value="read" selected>-read</option>
+      <option value="create">-create</option>
+      <option value="delete">-delete</option>
+    </select>
+    <br><br>
+    <input type="submit" value="Wykonaj">
+  </form>
+</body>
+</html>
