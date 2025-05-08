@@ -1,0 +1,3 @@
+http://example.com/;Przykładowa example1
+http://example2.com/;Przykładowa example2
+http://example3.com/;Przykładowa example3
