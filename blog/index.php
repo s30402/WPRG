@@ -19,9 +19,9 @@ $posts = $stmt->fetchAll();
 
 <body>
 
-  <div class="w-full h-12 py-2 px-3 grid grid-cols-2 content-center bg-blue-200">
+  <div class="w-full h-12 py-2 px-3 grid grid-cols-2 content-center bg-green-300">
 
-    <h1 class="col-start-auto content-center text-2xl">Blog</h1>
+    <h1 class="col-start-auto content-center text-2xl font-semibold">Blog Project</h1>
 
     <div class="col-start-auto flex justify-end">
       <?php if (isset($_SESSION['user_id'])): ?>
