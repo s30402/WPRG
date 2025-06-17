@@ -38,20 +38,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
   <title>Logowanie</title>
+  <link rel="stylesheet" href="./styles/output.css">
 </head>
 
 <body>
-  <h1>Logowanie</h1>
+  
+  <div class="relative grid w-full h-dvh">
 
-  <?php if ($error): ?>
-    <p style="color:red"><?= htmlspecialchars($error) ?></p>
-  <?php endif; ?>
+    <div class="grid place-self-center px-8 py-6 bg-white rounded-lg gap-y-4 drop-shadow-2xl">
+      <h1 class="text-3xl font-semibold text-center">Logowanie</h1>
 
-  <form method="post">
-    <label>Login:<br><input type="text" name="username" required></label><br><br>
-    <label>Hasło:<br><input type="password" name="password" required></label><br><br>
-    <button type="submit">Zaloguj się</button>
-  </form>
+      <?php if ($error): ?>
+        <p style="color:red"><?= htmlspecialchars($error) ?></p>
+      <?php endif; ?>
+
+      <form method="post" class="grid gap-y-3">
+
+        <label>
+          <p class="mb-1">Login:</p>
+          <p><input type="text" name="username" required 
+              class="w-64 border-slate-900/20 border-b-1 min-h-7 outline-0"></p>
+        </label>
+
+        <label>
+          <p class="mb-1">Hasło:</p>
+          <p><input type="password" name="password" required
+              class="w-64 border-slate-900/20 border-b-1 min-h-7 outline-0"></p>
+        </label>
+
+        <p class="mt-4">
+          <button type="submit" 
+            class="w-full bg-blue-300 px-6 py-2 rounded-sm font-medium drop-shadow-slate-300 cursor-pointer hover:bg-blue-500/60">
+            Zaloguj się
+          </button>
+        </p>
+      </form>
+
+      <p class="mt-2 text-center text-slate-600 text-sm">
+        Nie masz konta?
+        <a href="register.php" class="underline text-blue-600">Zarejestruj się</a>
+      </p>
+
+    </div>
+
+  </div>
+
 </body>
 
 </html>

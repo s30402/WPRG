@@ -38,27 +38,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
   <title>Rejestracja</title>
+  <link rel="stylesheet" href="./styles/output.css">
 </head>
 
 <body>
-  <h1>Rejestracja</h1>
+  <div class="relative grid w-full h-dvh">
 
-  <?php if ($success): ?>
-    <p style="color:green;">Konto utworzone! <a href="login.php">Zaloguj się</a></p>
-  <?php else: ?>
+    <div class="grid place-self-center px-8 py-6 bg-white rounded-lg gap-y-4 drop-shadow-2xl">
+      <h1 class="text-3xl font-semibold text-center">Rejestracja</h1>
 
-    <?php foreach ($errors as $error): ?>
-      <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-    <?php endforeach; ?>
+      <?php if ($success): ?>
+        <p class="text-green-700">Konto utworzone! <a href="login.php" class="underline text-blue-600">Zaloguj się</a></p>
+      <?php else: ?>
 
-    <form method="post">
-      <label>Nazwa użytkownika:<br><input type="text" name="username" required></label><br><br>
-      <label>Hasło:<br><input type="password" name="password" required></label><br><br>
-      <label>Powtórz hasło:<br><input type="password" name="confirm" required></label><br><br>
-      <button type="submit">Zarejestruj</button>
-    </form>
+      <?php foreach ($errors as $error): ?>
+        <p class="text-red-700"><?= htmlspecialchars($error) ?></p>
+      <?php endforeach; ?>
 
-  <?php endif; ?>
+      <form method="post" class="grid gap-y-3">
+
+        <label>
+          <p class="mb-1">Nazwa użytkownika:</p>
+          <input type="text" name="username" required
+            class="w-64 border-slate-900/20 border-b-1 min-h-7 outline-0 bg-white">
+        </label>
+
+        <label>
+          <p class="mb-1">Hasło:</p>
+          <input type="password" name="password" required
+            class="w-64 border-slate-900/20 border-b-1 min-h-7 outline-0 bg-white">
+        </label>
+
+        <label>
+          <p class="mb-1">Powtórz hasło:</p>
+          <input type="password" name="confirm" required
+            class="w-64 border-slate-900/20 border-b-1 min-h-7 outline-0 bg-white">
+        </label>
+
+        <p class="mt-4">
+          <button type="submit"
+            class="w-full bg-orange-300 px-6 py-2 rounded-sm font-medium drop-shadow-slate-300 cursor-pointer hover:bg-orange-500/60">
+            Zarejestruj się
+          </button>
+        </p>
+      </form>
+
+      <p class="mt-2 text-center text-slate-600 text-sm">
+        Masz już konto?
+        <a href="login.php" class="underline text-blue-600">Zaloguj się</a>
+      </p>
+      <?php endif; ?>
+    </div>
+  </div>
 </body>
 
 </html>
