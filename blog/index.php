@@ -21,11 +21,12 @@ $posts = $stmt->fetchAll();
 
   <div class="w-full h-12 py-2 px-3 grid grid-cols-2 content-center bg-green-300">
 
-    <h1 class="col-start-auto content-center text-2xl font-semibold">Blog Project</h1>
+    <a href="index.php"><h1 class="col-start-auto content-center text-2xl font-semibold">Blog Project</h1></a>
 
     <div class="col-start-auto flex justify-end">
       <?php if (isset($_SESSION['user_id'])): ?>
           <p class="block py-0.5 px-4 content-center">Witaj, <?= htmlspecialchars($_SESSION['username']) ?></p>
+          <a  class="block py-0.5 px-4 content-center" href="admin_panel.php">Panel zarządzania</a>
           <a  class="block py-0.5 px-4 content-center" href="add_post.php">Dodaj post</a>
           <a  class="block py-0.5 px-4 content-center" href="logout.php">Wyloguj</a>
       <?php else: ?>

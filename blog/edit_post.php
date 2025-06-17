@@ -3,8 +3,8 @@ require_once 'db.php';
 require_once 'functions.php';
 session_start();
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-  die("Brak dostępu.");
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'author'])) {
+    die("Brak dostępu. Tylko administrator lub autor.");
 }
 
 $postId = (int)($_GET['id'] ?? 0);
@@ -15,6 +15,10 @@ $post = $stmt->fetch();
 
 if (!$post) {
   die("Post nie istnieje.");
+}
+
+if ($_SESSION['role'] !== 'admin' && $_SESSION['user_id'] != $post['author_id']) {
+    die("Brak dostępu. Możesz edytować tylko swoje posty.");
 }
 
 $errors = [];
@@ -43,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare("SELECT * FROM posts WHERE id = :id");
     $stmt->execute(['id' => $postId]);
     $post = $stmt->fetch();
+    header("Location: index.php");
   } else {
     $errors[] = "Tytuł i treść są wymagane.";
   }
@@ -54,29 +59,102 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
   <title>Edytuj post</title>
+  <link rel="stylesheet" href="./styles/output.css">
 </head>
 
 <body>
-  <h1>Edytuj post</h1>
-  <p><a href="admin_panel.php">← Powrót do panelu</a></p>
 
-  <?php if ($success): ?>
-    <p style="color:green;">Zaktualizowano!</p>
-  <?php endif; ?>
+  <div class="w-full h-12 py-2 px-3 grid grid-cols-2 content-center bg-orange-300">
 
-  <?php foreach ($errors as $error): ?>
-    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-  <?php endforeach; ?>
+    <a href="index.php"><h1 class="col-start-auto content-center text-2xl font-semibold">Blog Project</h1></a>
+    
+    <div class="col-start-auto flex justify-end">
+      <?php if (isset($_SESSION['user_id'])): ?>
+          <p class="block py-0.5 px-4 content-center">Witaj, <?= htmlspecialchars($_SESSION['username']) ?></p>
+          <a  class="block py-0.5 px-4 content-center" href="admin_panel.php">Panel zarządzania</a>
+          <a  class="block py-0.5 px-4 content-center" href="add_post.php">Dodaj post</a>
+          <a  class="block py-0.5 px-4 content-center" href="logout.php">Wyloguj</a>
+      <?php else: ?>
+        <a class="block py-0.5 px-4 content-center" href="login.php"><p>Zaloguj się</p></a>
+        <a class="block py-0.5 px-4 content-center" href="register.php"><p>Zarejestruj się</p></a>
+      <?php endif; ?>
+    </div>
+  </div>
+
+  <div class="w-full h-[60dvh] grid grid-cols-1 grid-rows-1 relative">
+    <?php if ($post['image']): ?>
+      <img id="preview-image" src="uploads/<?= htmlspecialchars($post['image']) ?>" alt="Obrazek"
+        class="row-start-1 col-start-1 object-cover w-full h-full" />
+    <?php else: ?>
+      <img id="preview-image" src="#" alt="Podgląd zdjęcia"
+        class="hidden row-start-1 col-start-1 object-cover w-full h-full" />
+    <?php endif; ?>
+    <div class="row-start-1 col-start-1 bg-slate-900/30"></div>
+    <h1 class="row-start-1 col-start-1 text-center place-self-center max-w-[1400px] text-slate-50 text-6xl font-semibold text-shadow-slate-950">
+      Edytujesz post
+    </h1>
+  </div>
 
   <form method="post" enctype="multipart/form-data">
-    <label>Tytuł:<br><input type="text" name="title" value="<?= htmlspecialchars($post['title']) ?>" required></label><br><br>
-    <label>Treść:<br><textarea name="content" rows="10" cols="60" required><?= htmlspecialchars($post['content']) ?></textarea></label><br><br>
-    <?php if ($post['image']): ?>
-      <p><img src="uploads/<?= htmlspecialchars($post['image']) ?>" style="max-width:200px;"></p>
+
+  <div class="grid grid-cols-1 gap-4 w-[1400px] min-h-[calc(10dvh-48px)] h-auto mx-auto mb-7 p-4 bg-slate-100/30">
+
+    <?php if ($success): ?>
+      <p style="color:green;">Zaktualizowano!</p>
     <?php endif; ?>
-    <label>Zmień obrazek:<br><input type="file" name="image"></label><br><br>
-    <button type="submit">Zapisz zmiany</button>
+
+    <?php foreach ($errors as $error): ?>
+      <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+    <?php endforeach; ?>
+      <p class="text-lg font-semibold">Tytuł:</p>
+      <p>
+        <input type="text" name="title" required value="<?= htmlspecialchars($post['title']) ?>"
+          class="w-full border-slate-900/20 border-b-2 min-h-7 outline-0" />
+      </p>
+      <p class="text-lg font-semibold">Treść:</p>
+      <p>
+        <textarea name="content" rows="1" required
+          class="w-full border-slate-900/20 border-b-2 min-h-7 outline-0"><?= htmlspecialchars($post['content']) ?></textarea>
+      </p>
+      <p class="text-lg font-semibold">Zdjęcie:</p>
+      <p>
+        <input type="file" name="image" />
+      </p>
+
+      <div class="flex w-full justify-end">
+        <button type="submit"
+          class="inline-block bg-orange-300 px-6 py-1 rounded-sm drop-shadow-slate-300 cursor-pointer hover:bg-green-600/60">
+          Zapisz zmiany
+        </button>
+      </div>
+
+    
+  </div>
+
   </form>
+
+  <script>
+    document.querySelector('input[type="file"][name="image"]').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      const preview = document.getElementById('preview-image');
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.classList.remove('hidden');
+        }
+        reader.readAsDataURL(file);
+      } else {
+        <?php if ($post['image']): ?>
+          preview.src = "uploads/<?= htmlspecialchars($post['image']) ?>";
+          preview.classList.remove('hidden');
+        <?php else: ?>
+          preview.src = '#';
+          preview.classList.add('hidden');
+        <?php endif; ?>
+      }
+    });
+  </script>
 </body>
 
 </html>
